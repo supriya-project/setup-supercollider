@@ -1,0 +1,40 @@
+{
+  "author": "@josephine-wolf-oberholtzer",
+  "dependencies": {
+    "@actions/artifact": "^6.2.1",
+    "@actions/cache": "^6.0.0",
+    "@actions/core": "^3.0.0",
+    "@actions/exec": "^3.0.0",
+    "@actions/io": "^3.0.2"
+  },
+  "description": "Setup your GitHub Actions workflow with SuperCollider from source",
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.7",
+    "@types/node": "^25.4.0",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "keywords": [
+    "actions",
+    "github",
+    "setup",
+    "supercollider"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "setup-supercollider",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supriya-project/setup-supercollider.git"
+  },
+  "scripts": {
+    "all": "npm run check && npm run build",
+    "build": "esbuild src/index.ts src/post.ts --bundle --outdir=dist --platform=node --target=node24.0.0 --packages=bundle",
+    "check": "biome check --write"
+  },
+  "version": "1.0.0"
+}

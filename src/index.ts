@@ -1,0 +1,184 @@
+import * as cache from "@actions/cache";
+import * as core from "@actions/core";
+import * as exec from "@actions/exec";
+import * as io from "@actions/io";
+
+const REPO_DIR = "/tmp/supercollider";
+const BUILD_DIR = `${REPO_DIR}/build`;
+
+async function restoreVcpkgCache(): Promise<void> {
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth();
+  const day = now.getUTCDay();
+  const paths = ["~/AppData/Local/vcpkg/archives"];
+  const key = `vcpkg-${process.platform}-${year}-${month}-${day}`;
+  const restoreKeys = [
+    `vcpkg-${process.platform}-${year}-${month}-`,
+    `vcpkg-${process.platform}-${year}-`,
+    `vcpkg-${process.platform}-`,
+  ];
+  await cache.restoreCache(paths, key, restoreKeys);
+}
+
+async function restoreCache(): Promise<void> {
+  core.startGroup("Restoring cache");
+  switch (process.platform) {
+    case "linux":
+      break;
+    case "darwin":
+      break;
+    case "win32":
+      await restoreVcpkgCache();
+      break;
+  }
+  core.endGroup();
+}
+
+async function cloneSuperCollider(): Promise<void> {
+  core.startGroup("Clone SuperCollider");
+  const origin = core.getInput("origin");
+  const ref = core.getInput("ref");
+  await exec.exec("git", [
+    "clone",
+    "--depth=1",
+    "--recursive",
+    "--shallow-submodules",
+    "--branch",
+    ref,
+    origin,
+    REPO_DIR,
+  ]);
+  core.endGroup();
+}
+
+async function installDependencies(): Promise<void> {
+  core.startGroup("Install SuperCollider dependencies");
+  switch (process.platform) {
+    case "linux":
+      await exec.exec("sudo", ["apt-get", "update"]);
+      await exec.exec("sudo", [
+        "apt-get",
+        "install",
+        "--yes",
+        "build-essential",
+        "cmake",
+        "emacs",
+        "libasound2-dev",
+        "libavahi-client-dev",
+        "libfftw3-dev",
+        "libicu-dev",
+        "libjack-jackd2-dev",
+        "libreadline6-dev",
+        "libsndfile1-dev",
+        "libudev-dev",
+        "libxt-dev",
+        "pkg-config",
+      ]);
+      break;
+    case "darwin":
+      await exec.exec("brew", [
+        "install",
+        "fftw",
+        "libsndfile",
+        "portaudio",
+        "readline",
+      ]);
+      break;
+    case "win32":
+      await exec.exec("vcpkg", [
+        "install",
+        "--triplet=x64-windows-release",
+        "--overlay-triplets=/tmp/vcpkg/triplets",
+        "asiosdk",
+        "fftw3",
+        "libsndfile",
+        "readline",
+      ]);
+      await exec.exec("ls", ["-l", "~/AppData/Local/vcpkg/archives"]);
+      break;
+  }
+  core.endGroup();
+}
+
+async function configureSuperCollider(): Promise<void> {
+  core.startGroup("Configure SuperCollider");
+  await io.mkdirP(BUILD_DIR);
+  const cmakeArgs = [
+    "-DRULE_LAUNCH_COMPILE=ccache",
+    "-DSC_ED=OFF",
+    "-DSC_EL=OFF",
+    "-DSC_IDE=OFF",
+    "-DSC_QT=OFF",
+    "-DSC_VIM=OFF",
+    "-DSUPERNOVA=ON",
+  ];
+  const env: { [key: string]: string } = { ...process.env };
+  switch (process.platform) {
+    case "darwin":
+      cmakeArgs.push("-GXcode");
+      break;
+    case "win32":
+      cmakeArgs.push(
+        ...[
+          "-A",
+          "x64",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin/",
+          "-DVCPKG_TARGET_TRIPLET=x64-windows-release",
+          "-G",
+          "Visual Studio 17 2022",
+        ],
+      );
+      env.VCPKG_ROOT = "C:\\vcpkg";
+      break;
+  }
+  await exec.exec("cmake", [...cmakeArgs, ".."], {
+    cwd: BUILD_DIR,
+    env: env,
+  });
+  core.endGroup();
+}
+
+async function buildSuperCollider(): Promise<void> {
+  core.startGroup("Build SuperCollider");
+  switch (process.platform) {
+    case "linux":
+      await exec.exec("make", ["-j2"], {
+        cwd: BUILD_DIR,
+      });
+      break;
+    case "darwin":
+      await exec.exec("cmake", [
+        "--build",
+        BUILD_DIR,
+        "--config",
+        "Release",
+        "--target",
+        "install",
+      ]);
+      break;
+    case "win32":
+      await exec.exec("cmake", [
+        "--build",
+        BUILD_DIR,
+        "--config",
+        "Release",
+        "--target",
+        "install",
+      ]);
+      break;
+  }
+  core.endGroup();
+}
+
+async function run(): Promise<void> {
+  core.info("Running index ...");
+  await restoreCache();
+  await cloneSuperCollider();
+  await installDependencies();
+  await configureSuperCollider();
+  await buildSuperCollider();
+}
+
+run();

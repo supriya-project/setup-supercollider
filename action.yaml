@@ -1,0 +1,20 @@
+name: supriya-project/setup-supercollider
+description: Setup your GitHub Actions workflow with SuperCollider from source
+author: "@josephine-wolf-oberholtzer"
+inputs:
+  origin:
+    description: SuperCollider repository URL
+    required: false
+    default: https://github.com/supercollider/supercollider.git
+  ref:
+    description: SuperCollider ref
+    required: false
+    default: develop
+runs:
+  main: dist/index.js
+  post: dist/post.js
+  post-if: success()
+  using: node24
+branding:
+  icon: package
+  color: white
