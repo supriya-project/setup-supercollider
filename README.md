@@ -3,6 +3,9 @@
 Setup your GitHub Actions workflow with headless SuperCollider built from
 source.
 
+Validated to work on GitHub's standard `macos-15`, `ubuntu-latest`, and
+`windows-latest` runners.
+
 ## Inputs
 
 | Title   | Required | Type   | Default                                              | Description                  |
