@@ -25,6 +25,6 @@ Validated to work on GitHub's standard `macos-15`, `ubuntu-latest`, and
 
 Windows workflows will automatically cache `vcpkg` archives.
 
-We strongly recommend you also use https://github.com/hendrikmuhs/ccache-action
-to prior to running this action in order to cache `ccache` for additional
-speedups.
+We also strongly recommend that you use
+https://github.com/hendrikmuhs/ccache-action prior to running this action for
+additional speedups.
