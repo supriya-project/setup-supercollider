@@ -5,8 +5,6 @@ source.
 
 ## Inputs
 
-# inputs
-
 | Title   | Required | Type   | Default                                              | Description                  |
 |---------|----------|--------|------------------------------------------------------|------------------------------|
 | origin  | False    | string | `https://github.com/supercollider/supercollider.git` | SuperCollider repository URL |
