@@ -10,7 +10,7 @@ inputs:
     required: false
     default: https://github.com/supercollider/supercollider.git
   ref:
-    description: SuperCollider ref
+    description: SuperCollider branch/tag ref
     required: false
     default: develop
 outputs:
