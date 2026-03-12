@@ -24040,15 +24040,15 @@ var require_reflection_type_check = __commonJS({
           return true;
         }
         for (const name of data.oneofs) {
-          const group = message[name];
-          if (!oneof_1.isOneofGroup(group))
+          const group2 = message[name];
+          if (!oneof_1.isOneofGroup(group2))
             return false;
-          if (group.oneofKind === void 0)
+          if (group2.oneofKind === void 0)
             continue;
-          const field = this.fields.find((f) => f.localName === group.oneofKind);
+          const field = this.fields.find((f) => f.localName === group2.oneofKind);
           if (!field)
             return false;
-          if (!this.field(group[group.oneofKind], field, allowExcessProperties, depth))
+          if (!this.field(group2[group2.oneofKind], field, allowExcessProperties, depth))
             return false;
         }
         for (const field of this.fields) {
@@ -24529,11 +24529,11 @@ var require_reflection_json_writer = __commonJS({
               json[options.useProtoFieldName ? field.name : field.jsonName] = jsonValue2;
             continue;
           }
-          const group = source[field.oneof];
-          if (group.oneofKind !== field.localName)
+          const group2 = source[field.oneof];
+          if (group2.oneofKind !== field.localName)
             continue;
           const opt = field.kind == "scalar" || field.kind == "enum" ? Object.assign(Object.assign({}, options), { emitDefaultValues: true }) : options;
-          let jsonValue = this.field(field, group[field.localName], opt);
+          let jsonValue = this.field(field, group2[field.localName], opt);
           assert_1.assert(jsonValue !== void 0);
           json[options.useProtoFieldName ? field.name : field.jsonName] = jsonValue;
         }
@@ -24959,10 +24959,10 @@ var require_reflection_binary_writer = __commonJS({
         for (const field of this.fields) {
           let value, emitDefault, repeated = field.repeat, localName = field.localName;
           if (field.oneof) {
-            const group = message[field.oneof];
-            if (group.oneofKind !== localName)
+            const group2 = message[field.oneof];
+            if (group2.oneofKind !== localName)
               continue;
-            value = group[localName];
+            value = group2[localName];
             emitDefault = true;
           } else {
             value = message[localName];
@@ -25198,13 +25198,13 @@ var require_reflection_merge_partial = __commonJS({
       for (let field of info2.fields) {
         let name = field.localName;
         if (field.oneof) {
-          const group = input[field.oneof];
-          if ((group === null || group === void 0 ? void 0 : group.oneofKind) == void 0) {
+          const group2 = input[field.oneof];
+          if ((group2 === null || group2 === void 0 ? void 0 : group2.oneofKind) == void 0) {
             continue;
           }
-          fieldValue = group[name];
+          fieldValue = group2[name];
           output = target[field.oneof];
-          output.oneofKind = group.oneofKind;
+          output.oneofKind = group2.oneofKind;
           if (fieldValue == void 0) {
             delete output[name];
             continue;
@@ -26163,7 +26163,7 @@ var require_rpc_output_stream = __commonJS({
 var require_unary_call = __commonJS({
   "node_modules/@protobuf-ts/runtime-rpc/build/commonjs/unary-call.js"(exports2) {
     "use strict";
-    var __awaiter17 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+    var __awaiter18 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
         return value instanceof P ? value : new P(function(resolve2) {
           resolve2(value);
@@ -26210,7 +26210,7 @@ var require_unary_call = __commonJS({
         return this.promiseFinished().then((value) => onfulfilled ? Promise.resolve(onfulfilled(value)) : value, (reason) => onrejected ? Promise.resolve(onrejected(reason)) : Promise.reject(reason));
       }
       promiseFinished() {
-        return __awaiter17(this, void 0, void 0, function* () {
+        return __awaiter18(this, void 0, void 0, function* () {
           let [headers, response, status, trailers] = yield Promise.all([this.headers, this.response, this.status, this.trailers]);
           return {
             method: this.method,
@@ -26232,7 +26232,7 @@ var require_unary_call = __commonJS({
 var require_server_streaming_call = __commonJS({
   "node_modules/@protobuf-ts/runtime-rpc/build/commonjs/server-streaming-call.js"(exports2) {
     "use strict";
-    var __awaiter17 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+    var __awaiter18 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
         return value instanceof P ? value : new P(function(resolve2) {
           resolve2(value);
@@ -26281,7 +26281,7 @@ var require_server_streaming_call = __commonJS({
         return this.promiseFinished().then((value) => onfulfilled ? Promise.resolve(onfulfilled(value)) : value, (reason) => onrejected ? Promise.resolve(onrejected(reason)) : Promise.reject(reason));
       }
       promiseFinished() {
-        return __awaiter17(this, void 0, void 0, function* () {
+        return __awaiter18(this, void 0, void 0, function* () {
           let [headers, status, trailers] = yield Promise.all([this.headers, this.status, this.trailers]);
           return {
             method: this.method,
@@ -26302,7 +26302,7 @@ var require_server_streaming_call = __commonJS({
 var require_client_streaming_call = __commonJS({
   "node_modules/@protobuf-ts/runtime-rpc/build/commonjs/client-streaming-call.js"(exports2) {
     "use strict";
-    var __awaiter17 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+    var __awaiter18 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
         return value instanceof P ? value : new P(function(resolve2) {
           resolve2(value);
@@ -26350,7 +26350,7 @@ var require_client_streaming_call = __commonJS({
         return this.promiseFinished().then((value) => onfulfilled ? Promise.resolve(onfulfilled(value)) : value, (reason) => onrejected ? Promise.resolve(onrejected(reason)) : Promise.reject(reason));
       }
       promiseFinished() {
-        return __awaiter17(this, void 0, void 0, function* () {
+        return __awaiter18(this, void 0, void 0, function* () {
           let [headers, response, status, trailers] = yield Promise.all([this.headers, this.response, this.status, this.trailers]);
           return {
             method: this.method,
@@ -26371,7 +26371,7 @@ var require_client_streaming_call = __commonJS({
 var require_duplex_streaming_call = __commonJS({
   "node_modules/@protobuf-ts/runtime-rpc/build/commonjs/duplex-streaming-call.js"(exports2) {
     "use strict";
-    var __awaiter17 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+    var __awaiter18 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
         return value instanceof P ? value : new P(function(resolve2) {
           resolve2(value);
@@ -26419,7 +26419,7 @@ var require_duplex_streaming_call = __commonJS({
         return this.promiseFinished().then((value) => onfulfilled ? Promise.resolve(onfulfilled(value)) : value, (reason) => onrejected ? Promise.resolve(onrejected(reason)) : Promise.reject(reason));
       }
       promiseFinished() {
-        return __awaiter17(this, void 0, void 0, function* () {
+        return __awaiter18(this, void 0, void 0, function* () {
           let [headers, status, trailers] = yield Promise.all([this.headers, this.status, this.trailers]);
           return {
             method: this.method,
@@ -26439,7 +26439,7 @@ var require_duplex_streaming_call = __commonJS({
 var require_test_transport = __commonJS({
   "node_modules/@protobuf-ts/runtime-rpc/build/commonjs/test-transport.js"(exports2) {
     "use strict";
-    var __awaiter17 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+    var __awaiter18 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
         return value instanceof P ? value : new P(function(resolve2) {
           resolve2(value);
@@ -26543,7 +26543,7 @@ var require_test_transport = __commonJS({
        * not reject. If it does, code is broken.
        */
       streamResponses(method, stream, abort) {
-        return __awaiter17(this, void 0, void 0, function* () {
+        return __awaiter18(this, void 0, void 0, function* () {
           const messages = [];
           if (this.data.response === void 0) {
             messages.push(method.O.create());
@@ -28767,6 +28767,33 @@ var platform = import_os2.default.platform();
 var arch = import_os2.default.arch();
 
 // node_modules/@actions/core/lib/core.js
+var __awaiter8 = function(thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
+    });
+  }
+  return new (P || (P = Promise))(function(resolve2, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 var ExitCode;
 (function(ExitCode2) {
   ExitCode2[ExitCode2["Success"] = 0] = "Success";
@@ -28795,6 +28822,18 @@ function startGroup(name) {
 }
 function endGroup() {
   issue("endgroup");
+}
+function group(name, fn) {
+  return __awaiter8(this, void 0, void 0, function* () {
+    startGroup(name);
+    let result;
+    try {
+      result = yield fn();
+    } finally {
+      endGroup();
+    }
+    return result;
+  });
 }
 
 // node_modules/@actions/cache/lib/cache.js
@@ -29227,7 +29266,7 @@ var SearchState = class {
 };
 
 // node_modules/@actions/glob/lib/internal-globber.js
-var __awaiter8 = function(thisArg, _arguments, P, generator) {
+var __awaiter9 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -29328,7 +29367,7 @@ var DefaultGlobber = class _DefaultGlobber {
     return this.searchPaths.slice();
   }
   glob() {
-    return __awaiter8(this, void 0, void 0, function* () {
+    return __awaiter9(this, void 0, void 0, function* () {
       var _a, e_1, _b, _c;
       const result = [];
       try {
@@ -29410,7 +29449,7 @@ var DefaultGlobber = class _DefaultGlobber {
    * Constructs a DefaultGlobber
    */
   static create(patterns, options) {
-    return __awaiter8(this, void 0, void 0, function* () {
+    return __awaiter9(this, void 0, void 0, function* () {
       const result = new _DefaultGlobber(options);
       if (IS_WINDOWS7) {
         patterns = patterns.replace(/\r\n/g, "\n");
@@ -29429,7 +29468,7 @@ var DefaultGlobber = class _DefaultGlobber {
     });
   }
   static stat(item, options, traversalChain) {
-    return __awaiter8(this, void 0, void 0, function* () {
+    return __awaiter9(this, void 0, void 0, function* () {
       let stats;
       if (options.followSymbolicLinks) {
         try {
@@ -29464,7 +29503,7 @@ var DefaultGlobber = class _DefaultGlobber {
 };
 
 // node_modules/@actions/glob/lib/glob.js
-var __awaiter9 = function(thisArg, _arguments, P, generator) {
+var __awaiter10 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -29492,7 +29531,7 @@ var __awaiter9 = function(thisArg, _arguments, P, generator) {
   });
 };
 function create(patterns, options) {
-  return __awaiter9(this, void 0, void 0, function* () {
+  return __awaiter10(this, void 0, void 0, function* () {
     return yield DefaultGlobber.create(patterns, options);
   });
 }
@@ -29530,7 +29569,7 @@ var ManifestFilename = "manifest.txt";
 var CacheFileSizeLimit = 10 * Math.pow(1024, 3);
 
 // node_modules/@actions/cache/lib/internal/cacheUtils.js
-var __awaiter10 = function(thisArg, _arguments, P, generator) {
+var __awaiter11 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -29578,7 +29617,7 @@ var __asyncValues2 = function(o) {
 };
 var versionSalt = "1.0";
 function createTempDirectory() {
-  return __awaiter10(this, void 0, void 0, function* () {
+  return __awaiter11(this, void 0, void 0, function* () {
     const IS_WINDOWS9 = process.platform === "win32";
     let tempDirectory = process.env["RUNNER_TEMP"] || "";
     if (!tempDirectory) {
@@ -29603,7 +29642,7 @@ function getArchiveFileSizeInBytes(filePath) {
   return fs3.statSync(filePath).size;
 }
 function resolvePaths(patterns) {
-  return __awaiter10(this, void 0, void 0, function* () {
+  return __awaiter11(this, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
     var _d;
     const paths = [];
@@ -29637,12 +29676,12 @@ function resolvePaths(patterns) {
   });
 }
 function unlinkFile(filePath) {
-  return __awaiter10(this, void 0, void 0, function* () {
+  return __awaiter11(this, void 0, void 0, function* () {
     return util.promisify(fs3.unlink)(filePath);
   });
 }
 function getVersion(app_1) {
-  return __awaiter10(this, arguments, void 0, function* (app, additionalArgs = []) {
+  return __awaiter11(this, arguments, void 0, function* (app, additionalArgs = []) {
     let versionOutput = "";
     additionalArgs.push("--version");
     debug(`Checking ${app} ${additionalArgs.join(" ")}`);
@@ -29664,7 +29703,7 @@ function getVersion(app_1) {
   });
 }
 function getCompressionMethod() {
-  return __awaiter10(this, void 0, void 0, function* () {
+  return __awaiter11(this, void 0, void 0, function* () {
     const versionOutput = yield getVersion("zstd", ["--quiet"]);
     const version3 = semver.clean(versionOutput);
     debug(`zstd version: ${version3}`);
@@ -29679,7 +29718,7 @@ function getCacheFileName(compressionMethod) {
   return compressionMethod === CompressionMethod.Gzip ? CacheFilename.Gzip : CacheFilename.Zstd;
 }
 function getGnuTarPathOnWindows() {
-  return __awaiter10(this, void 0, void 0, function* () {
+  return __awaiter11(this, void 0, void 0, function* () {
     if (fs3.existsSync(GnuTarPathOnWindows)) {
       return GnuTarPathOnWindows;
     }
@@ -59696,7 +59735,7 @@ var RateLimitError = class extends Error {
 };
 
 // node_modules/@actions/cache/lib/internal/uploadUtils.js
-var __awaiter11 = function(thisArg, _arguments, P, generator) {
+var __awaiter12 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -59803,7 +59842,7 @@ var UploadProgress = class {
   }
 };
 function uploadCacheArchiveSDK(signedUploadURL, archivePath, options) {
-  return __awaiter11(this, void 0, void 0, function* () {
+  return __awaiter12(this, void 0, void 0, function* () {
     var _a;
     const blobClient = new BlobClient(signedUploadURL);
     const blockBlobClient = blobClient.getBlockBlobClient();
@@ -59834,7 +59873,7 @@ function uploadCacheArchiveSDK(signedUploadURL, archivePath, options) {
 }
 
 // node_modules/@actions/cache/lib/internal/requestUtils.js
-var __awaiter12 = function(thisArg, _arguments, P, generator) {
+var __awaiter13 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -59885,12 +59924,12 @@ function isRetryableStatusCode(statusCode) {
   return retryableStatusCodes.includes(statusCode);
 }
 function sleep(milliseconds) {
-  return __awaiter12(this, void 0, void 0, function* () {
+  return __awaiter13(this, void 0, void 0, function* () {
     return new Promise((resolve2) => setTimeout(resolve2, milliseconds));
   });
 }
 function retry(name_1, method_1, getStatusCode_1) {
-  return __awaiter12(this, arguments, void 0, function* (name, method, getStatusCode, maxAttempts = DefaultRetryAttempts, delay4 = DefaultRetryDelay, onError = void 0) {
+  return __awaiter13(this, arguments, void 0, function* (name, method, getStatusCode, maxAttempts = DefaultRetryAttempts, delay4 = DefaultRetryDelay, onError = void 0) {
     let errorMessage = "";
     let attempt = 1;
     while (attempt <= maxAttempts) {
@@ -59928,7 +59967,7 @@ function retry(name_1, method_1, getStatusCode_1) {
   });
 }
 function retryTypedResponse(name_1, method_1) {
-  return __awaiter12(this, arguments, void 0, function* (name, method, maxAttempts = DefaultRetryAttempts, delay4 = DefaultRetryDelay) {
+  return __awaiter13(this, arguments, void 0, function* (name, method, maxAttempts = DefaultRetryAttempts, delay4 = DefaultRetryDelay) {
     return yield retry(
       name,
       method,
@@ -59953,7 +59992,7 @@ function retryTypedResponse(name_1, method_1) {
   });
 }
 function retryHttpClientResponse(name_1, method_1) {
-  return __awaiter12(this, arguments, void 0, function* (name, method, maxAttempts = DefaultRetryAttempts, delay4 = DefaultRetryDelay) {
+  return __awaiter13(this, arguments, void 0, function* (name, method, maxAttempts = DefaultRetryAttempts, delay4 = DefaultRetryDelay) {
     return yield retry(name, method, (response) => response.message.statusCode, maxAttempts, delay4);
   });
 }
@@ -60017,7 +60056,7 @@ function getUserAgentString2() {
 }
 
 // node_modules/@actions/cache/lib/internal/cacheHttpClient.js
-var __awaiter13 = function(thisArg, _arguments, P, generator) {
+var __awaiter14 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -60070,7 +60109,7 @@ function createHttpClient() {
   return new HttpClient(getUserAgentString2(), [bearerCredentialHandler], getRequestOptions());
 }
 function reserveCache(key, paths, options) {
-  return __awaiter13(this, void 0, void 0, function* () {
+  return __awaiter14(this, void 0, void 0, function* () {
     const httpClient = createHttpClient();
     const version3 = getCacheVersion(paths, options === null || options === void 0 ? void 0 : options.compressionMethod, options === null || options === void 0 ? void 0 : options.enableCrossOsArchive);
     const reserveCacheRequest = {
@@ -60078,7 +60117,7 @@ function reserveCache(key, paths, options) {
       version: version3,
       cacheSize: options === null || options === void 0 ? void 0 : options.cacheSize
     };
-    const response = yield retryTypedResponse("reserveCache", () => __awaiter13(this, void 0, void 0, function* () {
+    const response = yield retryTypedResponse("reserveCache", () => __awaiter14(this, void 0, void 0, function* () {
       return httpClient.postJson(getCacheApiUrl("caches"), reserveCacheRequest);
     }));
     return response;
@@ -60088,13 +60127,13 @@ function getContentRange(start, end) {
   return `bytes ${start}-${end}/*`;
 }
 function uploadChunk(httpClient, resourceUrl, openStream, start, end) {
-  return __awaiter13(this, void 0, void 0, function* () {
+  return __awaiter14(this, void 0, void 0, function* () {
     debug(`Uploading chunk of size ${end - start + 1} bytes at offset ${start} with content range: ${getContentRange(start, end)}`);
     const additionalHeaders = {
       "Content-Type": "application/octet-stream",
       "Content-Range": getContentRange(start, end)
     };
-    const uploadChunkResponse = yield retryHttpClientResponse(`uploadChunk (start: ${start}, end: ${end})`, () => __awaiter13(this, void 0, void 0, function* () {
+    const uploadChunkResponse = yield retryHttpClientResponse(`uploadChunk (start: ${start}, end: ${end})`, () => __awaiter14(this, void 0, void 0, function* () {
       return httpClient.sendStream("PATCH", resourceUrl, openStream(), additionalHeaders);
     }));
     if (!isSuccessStatusCode(uploadChunkResponse.message.statusCode)) {
@@ -60103,7 +60142,7 @@ function uploadChunk(httpClient, resourceUrl, openStream, start, end) {
   });
 }
 function uploadFile(httpClient, cacheId, archivePath, options) {
-  return __awaiter13(this, void 0, void 0, function* () {
+  return __awaiter14(this, void 0, void 0, function* () {
     const fileSize = getArchiveFileSizeInBytes(archivePath);
     const resourceUrl = getCacheApiUrl(`caches/${cacheId.toString()}`);
     const fd = fs5.openSync(archivePath, "r");
@@ -60114,7 +60153,7 @@ function uploadFile(httpClient, cacheId, archivePath, options) {
     debug("Awaiting all uploads");
     let offset = 0;
     try {
-      yield Promise.all(parallelUploads.map(() => __awaiter13(this, void 0, void 0, function* () {
+      yield Promise.all(parallelUploads.map(() => __awaiter14(this, void 0, void 0, function* () {
         while (offset < fileSize) {
           const chunkSize = Math.min(fileSize - offset, maxChunkSize);
           const start = offset;
@@ -60137,15 +60176,15 @@ function uploadFile(httpClient, cacheId, archivePath, options) {
   });
 }
 function commitCache(httpClient, cacheId, filesize) {
-  return __awaiter13(this, void 0, void 0, function* () {
+  return __awaiter14(this, void 0, void 0, function* () {
     const commitCacheRequest = { size: filesize };
-    return yield retryTypedResponse("commitCache", () => __awaiter13(this, void 0, void 0, function* () {
+    return yield retryTypedResponse("commitCache", () => __awaiter14(this, void 0, void 0, function* () {
       return httpClient.postJson(getCacheApiUrl(`caches/${cacheId.toString()}`), commitCacheRequest);
     }));
   });
 }
 function saveCache(cacheId, archivePath, signedUploadURL, options) {
-  return __awaiter13(this, void 0, void 0, function* () {
+  return __awaiter14(this, void 0, void 0, function* () {
     const uploadOptions = getUploadOptions(options);
     if (uploadOptions.useAzureSdk) {
       if (!signedUploadURL) {
@@ -60845,7 +60884,7 @@ function maskSecretUrls(body2) {
 }
 
 // node_modules/@actions/cache/lib/internal/shared/cacheTwirpClient.js
-var __awaiter14 = function(thisArg, _arguments, P, generator) {
+var __awaiter15 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -60895,14 +60934,14 @@ var CacheServiceClient = class {
   // This function satisfies the Rpc interface. It is compatible with the JSON
   // JSON generated client.
   request(service, method, contentType2, data) {
-    return __awaiter14(this, void 0, void 0, function* () {
+    return __awaiter15(this, void 0, void 0, function* () {
       const url2 = new URL(`/twirp/${service}/${method}`, this.baseUrl).href;
       debug(`[Request] ${method} ${url2}`);
       const headers = {
         "Content-Type": contentType2
       };
       try {
-        const { body: body2 } = yield this.retryableRequest(() => __awaiter14(this, void 0, void 0, function* () {
+        const { body: body2 } = yield this.retryableRequest(() => __awaiter15(this, void 0, void 0, function* () {
           return this.httpClient.post(url2, JSON.stringify(data), headers);
         }));
         return body2;
@@ -60912,7 +60951,7 @@ var CacheServiceClient = class {
     });
   }
   retryableRequest(operation) {
-    return __awaiter14(this, void 0, void 0, function* () {
+    return __awaiter15(this, void 0, void 0, function* () {
       let attempt = 0;
       let errorMessage = "";
       let rawBody = "";
@@ -60995,7 +61034,7 @@ var CacheServiceClient = class {
     return retryableStatusCodes.includes(statusCode);
   }
   sleep(milliseconds) {
-    return __awaiter14(this, void 0, void 0, function* () {
+    return __awaiter15(this, void 0, void 0, function* () {
       return new Promise((resolve2) => setTimeout(resolve2, milliseconds));
     });
   }
@@ -61019,7 +61058,7 @@ function internalCacheTwirpClient(options) {
 // node_modules/@actions/cache/lib/internal/tar.js
 var import_fs2 = require("fs");
 var path9 = __toESM(require("path"), 1);
-var __awaiter15 = function(thisArg, _arguments, P, generator) {
+var __awaiter16 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -61048,7 +61087,7 @@ var __awaiter15 = function(thisArg, _arguments, P, generator) {
 };
 var IS_WINDOWS8 = process.platform === "win32";
 function getTarPath() {
-  return __awaiter15(this, void 0, void 0, function* () {
+  return __awaiter16(this, void 0, void 0, function* () {
     switch (process.platform) {
       case "win32": {
         const gnuTar = yield getGnuTarPathOnWindows();
@@ -61081,7 +61120,7 @@ function getTarPath() {
   });
 }
 function getTarArgs(tarPath_1, compressionMethod_1, type_1) {
-  return __awaiter15(this, arguments, void 0, function* (tarPath, compressionMethod, type, archivePath = "") {
+  return __awaiter16(this, arguments, void 0, function* (tarPath, compressionMethod, type, archivePath = "") {
     const args = [`"${tarPath.path}"`];
     const cacheFileName = getCacheFileName(compressionMethod);
     const tarFile = "cache.tar";
@@ -61112,7 +61151,7 @@ function getTarArgs(tarPath_1, compressionMethod_1, type_1) {
   });
 }
 function getCommands(compressionMethod_1, type_1) {
-  return __awaiter15(this, arguments, void 0, function* (compressionMethod, type, archivePath = "") {
+  return __awaiter16(this, arguments, void 0, function* (compressionMethod, type, archivePath = "") {
     let args;
     const tarPath = yield getTarPath();
     const tarArgs = yield getTarArgs(tarPath, compressionMethod, type, archivePath);
@@ -61134,7 +61173,7 @@ function getWorkingDirectory() {
   return (_a = process.env["GITHUB_WORKSPACE"]) !== null && _a !== void 0 ? _a : process.cwd();
 }
 function getDecompressionProgram(tarPath, compressionMethod, archivePath) {
-  return __awaiter15(this, void 0, void 0, function* () {
+  return __awaiter16(this, void 0, void 0, function* () {
     const BSD_TAR_ZSTD = tarPath.type === ArchiveToolType.BSD && compressionMethod !== CompressionMethod.Gzip && IS_WINDOWS8;
     switch (compressionMethod) {
       case CompressionMethod.Zstd:
@@ -61158,7 +61197,7 @@ function getDecompressionProgram(tarPath, compressionMethod, archivePath) {
   });
 }
 function getCompressionProgram(tarPath, compressionMethod) {
-  return __awaiter15(this, void 0, void 0, function* () {
+  return __awaiter16(this, void 0, void 0, function* () {
     const cacheFileName = getCacheFileName(compressionMethod);
     const BSD_TAR_ZSTD = tarPath.type === ArchiveToolType.BSD && compressionMethod !== CompressionMethod.Gzip && IS_WINDOWS8;
     switch (compressionMethod) {
@@ -61183,7 +61222,7 @@ function getCompressionProgram(tarPath, compressionMethod) {
   });
 }
 function execCommands(commands, cwd) {
-  return __awaiter15(this, void 0, void 0, function* () {
+  return __awaiter16(this, void 0, void 0, function* () {
     for (const command of commands) {
       try {
         yield exec(command, void 0, {
@@ -61197,13 +61236,13 @@ function execCommands(commands, cwd) {
   });
 }
 function listTar(archivePath, compressionMethod) {
-  return __awaiter15(this, void 0, void 0, function* () {
+  return __awaiter16(this, void 0, void 0, function* () {
     const commands = yield getCommands(compressionMethod, "list", archivePath);
     yield execCommands(commands);
   });
 }
 function createTar(archiveFolder, sourceDirectories, compressionMethod) {
-  return __awaiter15(this, void 0, void 0, function* () {
+  return __awaiter16(this, void 0, void 0, function* () {
     (0, import_fs2.writeFileSync)(path9.join(archiveFolder, ManifestFilename), sourceDirectories.join("\n"));
     const commands = yield getCommands(compressionMethod, "create");
     yield execCommands(commands, archiveFolder);
@@ -61211,7 +61250,7 @@ function createTar(archiveFolder, sourceDirectories, compressionMethod) {
 }
 
 // node_modules/@actions/cache/lib/cache.js
-var __awaiter16 = function(thisArg, _arguments, P, generator) {
+var __awaiter17 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -61274,7 +61313,7 @@ function checkKey(key) {
   }
 }
 function saveCache2(paths_1, key_1, options_1) {
-  return __awaiter16(this, arguments, void 0, function* (paths, key, options, enableCrossOsArchive = false) {
+  return __awaiter17(this, arguments, void 0, function* (paths, key, options, enableCrossOsArchive = false) {
     const cacheServiceVersion = getCacheServiceVersion();
     debug(`Cache service version: ${cacheServiceVersion}`);
     checkPaths(paths);
@@ -61289,7 +61328,7 @@ function saveCache2(paths_1, key_1, options_1) {
   });
 }
 function saveCacheV1(paths_1, key_1, options_1) {
-  return __awaiter16(this, arguments, void 0, function* (paths, key, options, enableCrossOsArchive = false) {
+  return __awaiter17(this, arguments, void 0, function* (paths, key, options, enableCrossOsArchive = false) {
     var _a, _b, _c, _d, _e;
     const compressionMethod = yield getCompressionMethod();
     let cacheId = -1;
@@ -61352,7 +61391,7 @@ function saveCacheV1(paths_1, key_1, options_1) {
   });
 }
 function saveCacheV2(paths_1, key_1, options_1) {
-  return __awaiter16(this, arguments, void 0, function* (paths, key, options, enableCrossOsArchive = false) {
+  return __awaiter17(this, arguments, void 0, function* (paths, key, options, enableCrossOsArchive = false) {
     options = Object.assign(Object.assign({}, options), { uploadChunkSize: 64 * 1024 * 1024, uploadConcurrency: 8, useAzureSdk: true });
     const compressionMethod = yield getCompressionMethod();
     const twirpClient = internalCacheTwirpClient();
@@ -61454,9 +61493,7 @@ async function run() {
     case "darwin":
       break;
     case "win32":
-      startGroup("Saving cache");
-      await saveVcpkgCache();
-      endGroup();
+      await group("Saving vcpkg cache", saveVcpkgCache);
       break;
   }
 }

@@ -4,3 +4,10 @@ inputs:
     type: string
   ref:
     type: string
+outputs:
+  sclang_path:
+    type: string
+  scsynth_path:
+    type: string
+  supernova_path:
+    type: string

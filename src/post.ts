@@ -19,9 +19,7 @@ async function run(): Promise<void> {
     case "darwin":
       break;
     case "win32":
-      core.startGroup("Saving cache");
-      await saveVcpkgCache();
-      core.endGroup();
+      await core.group("Saving vcpkg cache", saveVcpkgCache);
       break;
   }
 }

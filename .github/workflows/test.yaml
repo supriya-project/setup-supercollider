@@ -22,6 +22,7 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run check
+    - uses: typesafegithub/github-actions-typing@v2
 
   end-to-end:
     name: End-to-end
