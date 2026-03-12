@@ -39,6 +39,9 @@ jobs:
         key: ${{ runner.os }}
         restore-keys: ${{ runner.os }}
     - uses: ./
+    - run: sclang --help
+    - run: scsynth --help
+    - run: supernova --help
     strategy:
       fail-fast: false
       matrix:
