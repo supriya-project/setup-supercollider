@@ -98340,7 +98340,7 @@ async function buildSuperCollider() {
 async function installSuperCollider() {
   switch (process.platform) {
     case "linux":
-      await exec("make", ["install", "-j2"], { cwd: BUILD_DIR });
+      await exec("sudo", ["make", "install", "-j2"], { cwd: BUILD_DIR });
       await mkdirP("/home/runner/.local/share/SuperCollider/synthdefs");
       break;
     case "darwin":

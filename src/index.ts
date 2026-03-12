@@ -160,7 +160,7 @@ async function buildSuperCollider(): Promise<void> {
 async function installSuperCollider(): Promise<void> {
   switch (process.platform) {
     case "linux":
-      await exec.exec("make", ["install", "-j2"], { cwd: BUILD_DIR });
+      await exec.exec("sudo", ["make", "install", "-j2"], { cwd: BUILD_DIR });
       await io.mkdirP("/home/runner/.local/share/SuperCollider/synthdefs");
       break;
     case "darwin":
