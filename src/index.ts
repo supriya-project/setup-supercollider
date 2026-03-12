@@ -194,7 +194,7 @@ async function setOutputs(): Promise<void> {
       break;
     }
     case "win32": {
-      const rootPath = "/tmp/supercollider/build/Install/SuperCollider/";
+      const rootPath = "/tmp/supercollider/build/Install/SuperCollider";
       core.addPath(rootPath);
       core.setOutput("sclang_path", `${rootPath}/sclang.exe`);
       core.setOutput("scsynth_path", `${rootPath}/scsynth`);

@@ -98372,7 +98372,7 @@ async function setOutputs() {
       break;
     }
     case "win32": {
-      const rootPath = "/tmp/supercollider/build/Install/SuperCollider/";
+      const rootPath = "/tmp/supercollider/build/Install/SuperCollider";
       addPath(rootPath);
       setOutput("sclang_path", `${rootPath}/sclang.exe`);
       setOutput("scsynth_path", `${rootPath}/scsynth`);

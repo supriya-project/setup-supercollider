@@ -47,9 +47,9 @@ jobs:
         supernova -v
     - name: Validate action outputs
       run: |
-        "${{ steps.action.outputs.sclang_path }}" -v
-        "${{ steps.action.outputs.scsynth_path }}" -v
-        "${{ steps.action.outputs.supernova_path }}" -v
+        ${{ steps.action.outputs.sclang_path }} -v
+        ${{ steps.action.outputs.scsynth_path }} -v
+        ${{ steps.action.outputs.supernova_path }} -v
     strategy:
       fail-fast: false
       matrix:
