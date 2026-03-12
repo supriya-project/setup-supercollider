@@ -39,9 +39,14 @@ jobs:
         key: ${{ runner.os }}
         restore-keys: ${{ runner.os }}
     - uses: ./
+      id: action
     - run: sclang -v
     - run: scsynth -v
     - run: supernova -v
+    - run: |
+        echo "${{ steps.action.outputs.sclang_path }}"
+        echo "${{ steps.action.outputs.scsynth_path }}"
+        echo "${{ steps.action.outputs.supernova_path }}"
     strategy:
       fail-fast: false
       matrix:
