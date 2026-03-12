@@ -40,13 +40,16 @@ jobs:
         restore-keys: ${{ runner.os }}
     - uses: ./
       id: action
-    - run: sclang -v
-    - run: scsynth -v
-    - run: supernova -v
-    - run: |
-        echo "${{ steps.action.outputs.sclang_path }}"
-        echo "${{ steps.action.outputs.scsynth_path }}"
-        echo "${{ steps.action.outputs.supernova_path }}"
+    - name: Validate PATH updates
+      run: |
+        sclang -v
+        scsynth -v
+        supernova -v
+    - name: Validate action outputs
+      run: |
+        "${{ steps.action.outputs.sclang_path }}" -v
+        "${{ steps.action.outputs.scsynth_path }}" -v
+        "${{ steps.action.outputs.supernova_path }}" -v
     strategy:
       fail-fast: false
       matrix:
