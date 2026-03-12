@@ -169,6 +169,10 @@ async function installSuperCollider(): Promise<void> {
       );
       break;
     case "win32":
+      await io.mv(
+        "/tmp/supercollider/build/Install/SuperCollider",
+        "C:/Program Files/SuperCollider",
+      );
       await io.mkdirP(
         "C:/Users/runneradmin/AppData/Local/SuperCollider/synthdefs",
       );
@@ -182,26 +186,16 @@ async function setOutputs(): Promise<void> {
       core.setOutput("scsynth_path", "");
       core.setOutput("supernova_path", "");
       break;
-    case "darwin":
-      core.addPath(
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/MacOS",
-      );
-      core.addPath(
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources",
-      );
-      core.setOutput(
-        "sclang_path",
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/MacOS/sclang",
-      );
-      core.setOutput(
-        "scsynth_path",
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources/scsynth",
-      );
-      core.setOutput(
-        "supernova_path",
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources/supernova",
-      );
+    case "darwin": {
+      const rootPath =
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents";
+      core.addPath(`${rootPath}/MacOS`);
+      core.addPath(`${rootPath}/Resources`);
+      core.setOutput("sclang_path", `${rootPath}/MacOS/sclang`);
+      core.setOutput("scsynth_path", `${rootPath}/Resources/scsynth`);
+      core.setOutput("supernova_path", `${rootPath}/Resources/supernova`);
       break;
+    }
     case "win32":
       core.setOutput("sclang_path", "");
       core.setOutput("scsynth_path", "");

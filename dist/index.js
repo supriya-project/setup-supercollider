@@ -57608,6 +57608,12 @@ function exists(fsPath) {
     return true;
   });
 }
+function isDirectory(fsPath_1) {
+  return __awaiter4(this, arguments, void 0, function* (fsPath, useStat = false) {
+    const stats = useStat ? yield stat(fsPath) : yield lstat(fsPath);
+    return stats.isDirectory();
+  });
+}
 function isRooted(p) {
   p = normalizeSeparators(p);
   if (!p) {
@@ -57716,6 +57722,45 @@ var __awaiter5 = function(thisArg, _arguments, P, generator) {
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
+function mv(source_1, dest_1) {
+  return __awaiter5(this, arguments, void 0, function* (source, dest, options = {}) {
+    if (yield exists(dest)) {
+      let destExists = true;
+      if (yield isDirectory(dest)) {
+        dest = path2.join(dest, path2.basename(source));
+        destExists = yield exists(dest);
+      }
+      if (destExists) {
+        if (options.force == null || options.force) {
+          yield rmRF(dest);
+        } else {
+          throw new Error("Destination already exists");
+        }
+      }
+    }
+    yield mkdirP(path2.dirname(dest));
+    yield rename(source, dest);
+  });
+}
+function rmRF(inputPath) {
+  return __awaiter5(this, void 0, void 0, function* () {
+    if (IS_WINDOWS) {
+      if (/[*"<>|]/.test(inputPath)) {
+        throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
+      }
+    }
+    try {
+      yield rm(inputPath, {
+        force: true,
+        maxRetries: 3,
+        recursive: true,
+        retryDelay: 300
+      });
+    } catch (err) {
+      throw new Error(`File was unable to be removed ${err}`);
+    }
+  });
+}
 function mkdirP(fsPath) {
   return __awaiter5(this, void 0, void 0, function* () {
     (0, import_assert.ok)(fsPath, "a path argument must be provided");
@@ -98349,6 +98394,10 @@ async function installSuperCollider() {
       );
       break;
     case "win32":
+      await mv(
+        "/tmp/supercollider/build/Install/SuperCollider",
+        "C:/Program Files/SuperCollider"
+      );
       await mkdirP(
         "C:/Users/runneradmin/AppData/Local/SuperCollider/synthdefs"
       );
@@ -98361,26 +98410,15 @@ async function setOutputs() {
       setOutput("scsynth_path", "");
       setOutput("supernova_path", "");
       break;
-    case "darwin":
-      addPath(
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/MacOS"
-      );
-      addPath(
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources"
-      );
-      setOutput(
-        "sclang_path",
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/MacOS/sclang"
-      );
-      setOutput(
-        "scsynth_path",
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources/scsynth"
-      );
-      setOutput(
-        "supernova_path",
-        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources/supernova"
-      );
+    case "darwin": {
+      const rootPath = "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents";
+      addPath(`${rootPath}/MacOS`);
+      addPath(`${rootPath}/Resources`);
+      setOutput("sclang_path", `${rootPath}/MacOS/sclang`);
+      setOutput("scsynth_path", `${rootPath}/Resources/scsynth`);
+      setOutput("supernova_path", `${rootPath}/Resources/supernova`);
       break;
+    }
     case "win32":
       setOutput("sclang_path", "");
       setOutput("scsynth_path", "");
