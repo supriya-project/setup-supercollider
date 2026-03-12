@@ -75,13 +75,7 @@ async function installDependencies(): Promise<void> {
       ]);
       break;
     case "darwin":
-      await exec.exec("brew", [
-        "install",
-        "fftw",
-        "libsndfile",
-        "portaudio",
-        "readline",
-      ]);
+      await exec.exec("brew", ["install", "fftw", "libsndfile", "portaudio"]);
       break;
     case "win32":
       await exec.exec("vcpkg", [
@@ -163,6 +157,24 @@ async function buildSuperCollider(): Promise<void> {
   }
 }
 
+async function installSuperCollider(): Promise<void> {
+  switch (process.platform) {
+    case "linux":
+      await exec.exec("make", ["install", "-j2"], { cwd: BUILD_DIR });
+      await io.mkdirP("/home/runner/.local/share/SuperCollider/synthdefs");
+      break;
+    case "darwin":
+      await io.mkdirP(
+        "/Users/runner/Library/Application Support/SuperCollider/synthdefs",
+      );
+      break;
+    case "win32":
+      await io.mkdirP(
+        "C:/Users/runneradmin/AppData/Local/SuperCollider/synthdefs",
+      );
+  }
+}
+
 async function setOutputs(): Promise<void> {
   switch (process.platform) {
     case "linux":
@@ -171,9 +183,24 @@ async function setOutputs(): Promise<void> {
       core.setOutput("supernova_path", "");
       break;
     case "darwin":
-      core.setOutput("sclang_path", "");
-      core.setOutput("scsynth_path", "");
-      core.setOutput("supernova_path", "");
+      core.addPath(
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/MacOS",
+      );
+      core.addPath(
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources",
+      );
+      core.setOutput(
+        "sclang_path",
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/MacOS/sclang",
+      );
+      core.setOutput(
+        "scsynth_path",
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources/scsynth",
+      );
+      core.setOutput(
+        "supernova_path",
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents/Resources/supernova",
+      );
       break;
     case "win32":
       core.setOutput("sclang_path", "");
@@ -201,8 +228,9 @@ async function run(): Promise<void> {
   await core.group("Installing dependencies", installDependencies);
   await core.group("Configuring SuperCollider", configureSuperCollider);
   await core.group("Building SuperCollider", buildSuperCollider);
-  await core.group("Setting outputs", setOutputs);
   await core.group("Uploading artifacts", uploadArtifacts);
+  await core.group("Installing SuperCollider", installSuperCollider);
+  await core.group("Setting outputs", setOutputs);
 }
 
 run();
