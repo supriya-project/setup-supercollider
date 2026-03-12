@@ -1,6 +1,8 @@
+import * as artifact from "@actions/artifact";
 import * as cache from "@actions/cache";
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
+import * as glob from "@actions/glob";
 import * as io from "@actions/io";
 
 const REPO_DIR = "/tmp/supercollider";
@@ -136,9 +138,7 @@ async function configureSuperCollider(): Promise<void> {
 async function buildSuperCollider(): Promise<void> {
   switch (process.platform) {
     case "linux":
-      await exec.exec("make", ["-j2"], {
-        cwd: BUILD_DIR,
-      });
+      await exec.exec("make", ["-j2"], { cwd: BUILD_DIR });
       break;
     case "darwin":
       await exec.exec("cmake", [
@@ -183,6 +183,18 @@ async function setOutputs(): Promise<void> {
   }
 }
 
+async function uploadArtifacts(): Promise<void> {
+  const globber = await glob.create("/tmp/supercollider/build/**/*", {
+    matchDirectories: false,
+  });
+  const client = new artifact.DefaultArtifactClient();
+  await client.uploadArtifact(
+    `supercollider-build-${process.platform}`,
+    await globber.glob(),
+    "/tmp/supercollider/build",
+  );
+}
+
 async function run(): Promise<void> {
   await restoreCache();
   await core.group("Cloning SuperCollider", cloneSuperCollider);
@@ -190,6 +202,7 @@ async function run(): Promise<void> {
   await core.group("Configuring SuperCollider", configureSuperCollider);
   await core.group("Building SuperCollider", buildSuperCollider);
   await core.group("Setting outputs", setOutputs);
+  await core.group("Uploading artifacts", uploadArtifacts);
 }
 
 run();
