@@ -60859,20 +60859,21 @@ async function restoreVcpkgCache() {
     `vcpkg-${process.platform}-${year}-`,
     `vcpkg-${process.platform}-`
   ];
+  info(`Restoring vcpkg cache with key ${key}`);
   await restoreCache(paths, key, restoreKeys);
 }
 async function restoreCache2() {
-  startGroup("Restoring cache");
   switch (process.platform) {
     case "linux":
       break;
     case "darwin":
       break;
     case "win32":
+      startGroup("Restoring cache");
       await restoreVcpkgCache();
+      endGroup();
       break;
   }
-  endGroup();
 }
 async function cloneSuperCollider() {
   startGroup("Clone SuperCollider");
@@ -61008,7 +61009,6 @@ async function buildSuperCollider() {
   endGroup();
 }
 async function run() {
-  info("Running index ...");
   await restoreCache2();
   await cloneSuperCollider();
   await installDependencies();

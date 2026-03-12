@@ -18,21 +18,22 @@ async function restoreVcpkgCache(): Promise<void> {
     `vcpkg-${process.platform}-${year}-`,
     `vcpkg-${process.platform}-`,
   ];
+  core.info(`Restoring vcpkg cache with key ${key}`);
   await cache.restoreCache(paths, key, restoreKeys);
 }
 
 async function restoreCache(): Promise<void> {
-  core.startGroup("Restoring cache");
   switch (process.platform) {
     case "linux":
       break;
     case "darwin":
       break;
     case "win32":
+      core.startGroup("Restoring cache");
       await restoreVcpkgCache();
+      core.endGroup();
       break;
   }
-  core.endGroup();
 }
 
 async function cloneSuperCollider(): Promise<void> {
@@ -173,7 +174,6 @@ async function buildSuperCollider(): Promise<void> {
 }
 
 async function run(): Promise<void> {
-  core.info("Running index ...");
   await restoreCache();
   await cloneSuperCollider();
   await installDependencies();

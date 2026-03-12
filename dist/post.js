@@ -61444,21 +61444,21 @@ async function saveVcpkgCache() {
   const day = now.getUTCDay();
   const paths = ["~/AppData/Local/vcpkg/archives"];
   const key = `vcpkg-${process.platform}-${year}-${month}-${day}`;
+  info(`Saving vcpkg cache with key ${key}`);
   await saveCache2(paths, key);
 }
 async function run() {
-  info("Running post ...");
-  startGroup("Saving cache");
   switch (process.platform) {
     case "linux":
       break;
     case "darwin":
       break;
     case "win32":
+      startGroup("Saving cache");
       await saveVcpkgCache();
+      endGroup();
       break;
   }
-  endGroup();
 }
 run();
 /*! Bundled license information:
