@@ -22,6 +22,7 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run check
+    - uses: typesafegithub/github-actions-typing@v2
 
   end-to-end:
     name: End-to-end
@@ -38,6 +39,17 @@ jobs:
         key: ${{ runner.os }}
         restore-keys: ${{ runner.os }}
     - uses: ./
+      id: action
+    - name: Validate PATH updates
+      run: |
+        sclang -v
+        scsynth -v
+        supernova -v
+    - name: Validate action outputs
+      run: |
+        ${{ steps.action.outputs.sclang_path }} -v
+        ${{ steps.action.outputs.scsynth_path }} -v
+        ${{ steps.action.outputs.supernova_path }} -v
     strategy:
       fail-fast: false
       matrix:

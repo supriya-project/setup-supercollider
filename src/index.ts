@@ -1,6 +1,8 @@
+import * as artifact from "@actions/artifact";
 import * as cache from "@actions/cache";
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
+import * as glob from "@actions/glob";
 import * as io from "@actions/io";
 
 const REPO_DIR = "/tmp/supercollider";
@@ -29,15 +31,12 @@ async function restoreCache(): Promise<void> {
     case "darwin":
       break;
     case "win32":
-      core.startGroup("Restoring cache");
-      await restoreVcpkgCache();
-      core.endGroup();
+      await core.group("Restoring vcpkg cache", restoreVcpkgCache);
       break;
   }
 }
 
 async function cloneSuperCollider(): Promise<void> {
-  core.startGroup("Clone SuperCollider");
   const origin = core.getInput("origin");
   const ref = core.getInput("ref");
   await exec.exec("git", [
@@ -50,11 +49,9 @@ async function cloneSuperCollider(): Promise<void> {
     origin,
     REPO_DIR,
   ]);
-  core.endGroup();
 }
 
 async function installDependencies(): Promise<void> {
-  core.startGroup("Install SuperCollider dependencies");
   switch (process.platform) {
     case "linux":
       await exec.exec("sudo", ["apt-get", "update"]);
@@ -78,13 +75,7 @@ async function installDependencies(): Promise<void> {
       ]);
       break;
     case "darwin":
-      await exec.exec("brew", [
-        "install",
-        "fftw",
-        "libsndfile",
-        "portaudio",
-        "readline",
-      ]);
+      await exec.exec("brew", ["install", "fftw", "libsndfile", "portaudio"]);
       break;
     case "win32":
       await exec.exec("vcpkg", [
@@ -99,11 +90,9 @@ async function installDependencies(): Promise<void> {
       await exec.exec("ls", ["-l", "~/AppData/Local/vcpkg/archives"]);
       break;
   }
-  core.endGroup();
 }
 
 async function configureSuperCollider(): Promise<void> {
-  core.startGroup("Configure SuperCollider");
   await io.mkdirP(BUILD_DIR);
   const cmakeArgs = [
     "-DRULE_LAUNCH_COMPILE=ccache",
@@ -138,16 +127,12 @@ async function configureSuperCollider(): Promise<void> {
     cwd: BUILD_DIR,
     env: env,
   });
-  core.endGroup();
 }
 
 async function buildSuperCollider(): Promise<void> {
-  core.startGroup("Build SuperCollider");
   switch (process.platform) {
     case "linux":
-      await exec.exec("make", ["-j2"], {
-        cwd: BUILD_DIR,
-      });
+      await exec.exec("make", ["-j2"], { cwd: BUILD_DIR });
       break;
     case "darwin":
       await exec.exec("cmake", [
@@ -170,15 +155,76 @@ async function buildSuperCollider(): Promise<void> {
       ]);
       break;
   }
-  core.endGroup();
+}
+
+async function installSuperCollider(): Promise<void> {
+  switch (process.platform) {
+    case "linux":
+      await exec.exec("sudo", ["make", "install", "-j2"], { cwd: BUILD_DIR });
+      await io.mkdirP("/home/runner/.local/share/SuperCollider/synthdefs");
+      break;
+    case "darwin":
+      await io.mkdirP(
+        "/Users/runner/Library/Application Support/SuperCollider/synthdefs",
+      );
+      break;
+    case "win32":
+      await io.mkdirP(
+        "C:/Users/runneradmin/AppData/Local/SuperCollider/synthdefs",
+      );
+  }
+}
+
+async function setOutputs(): Promise<void> {
+  switch (process.platform) {
+    case "linux": {
+      core.setOutput("sclang_path", "/usr/local/bin/sclang");
+      core.setOutput("scsynth_path", "/usr/local/bin/scsynth");
+      core.setOutput("supernova_path", "/usr/local/bin/supernova");
+      break;
+    }
+    case "darwin": {
+      const rootPath =
+        "/tmp/supercollider/build/Install/SuperCollider/SuperCollider.app/Contents";
+      core.addPath(`${rootPath}/MacOS`);
+      core.addPath(`${rootPath}/Resources`);
+      core.setOutput("sclang_path", `${rootPath}/MacOS/sclang`);
+      core.setOutput("scsynth_path", `${rootPath}/Resources/scsynth`);
+      core.setOutput("supernova_path", `${rootPath}/Resources/supernova`);
+      break;
+    }
+    case "win32": {
+      const rootPath = "/tmp/supercollider/build/Install/SuperCollider";
+      core.addPath(rootPath);
+      core.setOutput("sclang_path", `${rootPath}/sclang.exe`);
+      core.setOutput("scsynth_path", `${rootPath}/scsynth`);
+      core.setOutput("supernova_path", `${rootPath}/supernova`);
+      break;
+    }
+  }
+}
+
+async function uploadArtifacts(): Promise<void> {
+  const globber = await glob.create("/tmp/supercollider/build/**/*", {
+    matchDirectories: false,
+  });
+  const client = new artifact.DefaultArtifactClient();
+  await client.uploadArtifact(
+    `supercollider-build-${process.platform}`,
+    await globber.glob(),
+    "/tmp/supercollider/build",
+  );
 }
 
 async function run(): Promise<void> {
   await restoreCache();
-  await cloneSuperCollider();
-  await installDependencies();
-  await configureSuperCollider();
-  await buildSuperCollider();
+  await core.group("Cloning SuperCollider", cloneSuperCollider);
+  await core.group("Installing dependencies", installDependencies);
+  await core.group("Configuring SuperCollider", configureSuperCollider);
+  await core.group("Building SuperCollider", buildSuperCollider);
+  await core.group("Uploading artifacts", uploadArtifacts);
+  await core.group("Installing SuperCollider", installSuperCollider);
+  await core.group("Setting outputs", setOutputs);
 }
 
 run();
