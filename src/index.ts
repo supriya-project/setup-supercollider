@@ -84,7 +84,6 @@ async function installDependencies(): Promise<void> {
         "--overlay-triplets=/tmp/vcpkg/triplets",
         "asiosdk",
         "fftw3",
-        "jack2",
         "libsndfile",
         "readline",
       ]);
