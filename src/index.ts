@@ -1,8 +1,6 @@
-// import { DefaultArtifactClient } from "@actions/artifact";
 import * as cache from "@actions/cache";
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
-// import * as glob from "@actions/glob";
 import * as io from "@actions/io";
 
 const REPO_DIR = "/tmp/supercollider";
@@ -87,11 +85,6 @@ async function installDependencies(): Promise<void> {
         "libsndfile",
         "readline",
       ]);
-      // const globber = await glob.create("c:/vcpkg/**/*", {
-      //   matchDirectories: false,
-      // });
-      // const client = new DefaultArtifactClient();
-      // await client.uploadArtifact("vcpkg", await globber.glob(), "c:/vcpkg");
       break;
     }
   }
