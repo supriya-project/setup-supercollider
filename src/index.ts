@@ -1,3 +1,4 @@
+import {DefaultArtifactClient} from "@actions/artifact";
 import * as cache from "@actions/cache";
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
@@ -75,7 +76,7 @@ async function installDependencies(): Promise<void> {
     case "darwin":
       await exec.exec("brew", ["install", "fftw", "libsndfile", "portaudio"]);
       break;
-    case "win32":
+    case "win32": {
       await exec.exec("vcpkg", [
         "install",
         "--triplet=x64-windows-release",
@@ -86,9 +87,9 @@ async function installDependencies(): Promise<void> {
         "libsndfile",
         "readline",
       ]);
-      await exec.exec("ls", ["-l", "C:/vcpkg/installed/x64-windows/include"]);
-      await exec.exec("ls", ["-l", "C:/vcpkg/installed/x64-windows/lib"]);
+      await exec.exec("ls", ["-l", "C:/vcpkg/**/*"]);
       break;
+    }
   }
 }
 
