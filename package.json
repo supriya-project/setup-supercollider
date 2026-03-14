@@ -1,11 +1,9 @@
 {
   "author": "@josephine-wolf-oberholtzer",
   "dependencies": {
-    "@actions/artifact": "^6.2.1",
     "@actions/cache": "^6.0.0",
     "@actions/core": "^3.0.0",
     "@actions/exec": "^3.0.0",
-    "@actions/glob": "^0.6.1",
     "@actions/io": "^3.0.2"
   },
   "description": "Setup your GitHub Actions workflow with SuperCollider from source",
