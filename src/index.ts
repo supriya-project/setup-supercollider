@@ -86,7 +86,8 @@ async function installDependencies(): Promise<void> {
         "libsndfile",
         "readline",
       ]);
-      await exec.exec("ls", ["-l", "~/AppData/Local/vcpkg/archives"]);
+      await exec.exec("ls", ["-l", "C:/vcpkg/installed/x64-windows/include"]);
+      await exec.exec("ls", ["-l", "C:/vcpkg/installed/x64-windows/lib"]);
       break;
   }
 }
