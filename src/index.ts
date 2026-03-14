@@ -119,7 +119,7 @@ async function configureSuperCollider(): Promise<void> {
         ...[
           "-A",
           "x64",
-          "-DASIO_ROOT=C:/vcpkg/installed/x64-windows-release/include/asiosdk",
+          "-DASIOSDK_ROOT=C:/vcpkg/installed/x64-windows-release/include/asiosdk",
           "-DCMAKE_BUILD_TYPE=Release",
           "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin",
           "-DVCPKG_TARGET_TRIPLET=x64-windows-release",
