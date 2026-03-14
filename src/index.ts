@@ -1,6 +1,8 @@
+// import { DefaultArtifactClient } from "@actions/artifact";
 import * as cache from "@actions/cache";
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
+// import * as glob from "@actions/glob";
 import * as io from "@actions/io";
 
 const REPO_DIR = "/tmp/supercollider";
@@ -75,7 +77,7 @@ async function installDependencies(): Promise<void> {
     case "darwin":
       await exec.exec("brew", ["install", "fftw", "libsndfile", "portaudio"]);
       break;
-    case "win32":
+    case "win32": {
       await exec.exec("vcpkg", [
         "install",
         "--triplet=x64-windows-release",
@@ -85,8 +87,13 @@ async function installDependencies(): Promise<void> {
         "libsndfile",
         "readline",
       ]);
-      await exec.exec("ls", ["-l", "~/AppData/Local/vcpkg/archives"]);
+      // const globber = await glob.create("c:/vcpkg/**/*", {
+      //   matchDirectories: false,
+      // });
+      // const client = new DefaultArtifactClient();
+      // await client.uploadArtifact("vcpkg", await globber.glob(), "c:/vcpkg");
       break;
+    }
   }
 }
 
@@ -111,8 +118,9 @@ async function configureSuperCollider(): Promise<void> {
         ...[
           "-A",
           "x64",
+          "-DASIOSDK_ROOT=C:/vcpkg/installed/x64-windows-release/include/asiosdk",
           "-DCMAKE_BUILD_TYPE=Release",
-          "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin/",
+          "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin",
           "-DVCPKG_TARGET_TRIPLET=x64-windows-release",
           "-G",
           "Visual Studio 17 2022",

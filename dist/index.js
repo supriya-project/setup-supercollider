@@ -61121,7 +61121,7 @@ async function installDependencies() {
     case "darwin":
       await exec("brew", ["install", "fftw", "libsndfile", "portaudio"]);
       break;
-    case "win32":
+    case "win32": {
       await exec("vcpkg", [
         "install",
         "--triplet=x64-windows-release",
@@ -61131,8 +61131,8 @@ async function installDependencies() {
         "libsndfile",
         "readline"
       ]);
-      await exec("ls", ["-l", "~/AppData/Local/vcpkg/archives"]);
       break;
+    }
   }
 }
 async function configureSuperCollider() {
@@ -61156,8 +61156,9 @@ async function configureSuperCollider() {
         ...[
           "-A",
           "x64",
+          "-DASIOSDK_ROOT=C:/vcpkg/installed/x64-windows-release/include/asiosdk",
           "-DCMAKE_BUILD_TYPE=Release",
-          "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin/",
+          "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin",
           "-DVCPKG_TARGET_TRIPLET=x64-windows-release",
           "-G",
           "Visual Studio 17 2022"
