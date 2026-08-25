@@ -22712,80 +22712,33 @@ var require_state2 = __commonJS({
 var require_package = __commonJS({
   "node_modules/@actions/cache/package.json"(exports2, module2) {
     module2.exports = {
-      _from: "@actions/cache@6.0.0",
-      _id: "@actions/cache@6.0.0",
-      _inBundle: false,
-      _integrity: "sha512-+tCs634SyGBQJ3KU1rtAVabmN/gYiT9WgzTSJzWwdPCLmM3zWrdbysaErKv8HyI6OozClrxNvDgPjJimbHZZvw==",
-      _location: "/@actions/cache",
-      _phantomChildren: {},
-      _requested: {
-        type: "version",
-        registry: true,
-        raw: "@actions/cache@6.0.0",
-        name: "@actions/cache",
-        escapedName: "@actions%2fcache",
-        scope: "@actions",
-        rawSpec: "6.0.0",
-        saveSpec: null,
-        fetchSpec: "6.0.0"
-      },
-      _requiredBy: [
-        "/"
-      ],
-      _resolved: "https://registry.npmjs.org/@actions/cache/-/cache-6.0.0.tgz",
-      _shasum: "363f40d7f9136ac87c3c0e22f9217a4deec14589",
-      _spec: "@actions/cache@6.0.0",
-      _where: "/Users/josephine/Source/github.com/supriya-project/setup-supercollider",
-      bugs: {
-        url: "https://github.com/actions/toolkit/issues"
-      },
-      bundleDependencies: false,
-      dependencies: {
-        "@actions/core": "^3.0.0",
-        "@actions/exec": "^3.0.0",
-        "@actions/glob": "^0.6.1",
-        "@actions/http-client": "^4.0.0",
-        "@actions/io": "^3.0.0",
-        "@azure/core-rest-pipeline": "^1.22.0",
-        "@azure/storage-blob": "^12.30.0",
-        "@protobuf-ts/runtime-rpc": "^2.11.1",
-        semver: "^7.7.3"
-      },
-      deprecated: false,
+      name: "@actions/cache",
+      version: "6.0.0",
       description: "Actions cache lib",
-      devDependencies: {
-        "@protobuf-ts/plugin": "^2.9.4",
-        "@types/node": "^25.1.0",
-        "@types/semver": "^7.7.1",
-        typescript: "^5.2.2"
-      },
-      directories: {
-        lib: "lib",
-        test: "__tests__"
-      },
+      keywords: [
+        "github",
+        "actions",
+        "cache"
+      ],
+      homepage: "https://github.com/actions/toolkit/tree/main/packages/cache",
+      license: "MIT",
+      type: "module",
+      main: "lib/cache.js",
+      types: "lib/cache.d.ts",
       exports: {
         ".": {
           types: "./lib/cache.d.ts",
           import: "./lib/cache.js"
         }
       },
+      directories: {
+        lib: "lib",
+        test: "__tests__"
+      },
       files: [
         "lib",
         "!.DS_Store"
       ],
-      homepage: "https://github.com/actions/toolkit/tree/main/packages/cache",
-      keywords: [
-        "github",
-        "actions",
-        "cache"
-      ],
-      license: "MIT",
-      main: "lib/cache.js",
-      name: "@actions/cache",
-      overrides: {
-        "uri-js": "npm:uri-js-replace@^1.0.1",
-        "node-fetch": "^3.3.2"
-      },
       publishConfig: {
         access: "public"
       },
@@ -22799,9 +22752,30 @@ var require_package = __commonJS({
         test: 'echo "Error: run tests from root" && exit 1',
         tsc: "tsc && cp src/internal/shared/package-version.cjs lib/internal/shared/"
       },
-      type: "module",
-      types: "lib/cache.d.ts",
-      version: "6.0.0"
+      bugs: {
+        url: "https://github.com/actions/toolkit/issues"
+      },
+      dependencies: {
+        "@actions/core": "^3.0.0",
+        "@actions/exec": "^3.0.0",
+        "@actions/glob": "^0.6.1",
+        "@actions/http-client": "^4.0.0",
+        "@actions/io": "^3.0.0",
+        "@azure/core-rest-pipeline": "^1.22.0",
+        "@azure/storage-blob": "^12.30.0",
+        "@protobuf-ts/runtime-rpc": "^2.11.1",
+        semver: "^7.7.3"
+      },
+      devDependencies: {
+        "@protobuf-ts/plugin": "^2.9.4",
+        "@types/node": "^25.1.0",
+        "@types/semver": "^7.7.1",
+        typescript: "^5.2.2"
+      },
+      overrides: {
+        "uri-js": "npm:uri-js-replace@^1.0.1",
+        "node-fetch": "^3.3.2"
+      }
     };
   }
 });
@@ -61161,7 +61135,7 @@ async function configureSuperCollider() {
           "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin",
           "-DVCPKG_TARGET_TRIPLET=x64-windows-release",
           "-G",
-          "Visual Studio 17 2022"
+          "Visual Studio 18 2026"
         ]
       );
       env.VCPKG_ROOT = "C:\\vcpkg";

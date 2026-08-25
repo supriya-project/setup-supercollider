@@ -116,7 +116,7 @@ async function configureSuperCollider(): Promise<void> {
           "-DFFTW3F_LIBRARY_DIR=C:/vcpkg/installed/x64-windows-release/bin",
           "-DVCPKG_TARGET_TRIPLET=x64-windows-release",
           "-G",
-          "Visual Studio 17 2022",
+          "Visual Studio 18 2026",
         ],
       );
       env.VCPKG_ROOT = "C:\\vcpkg";
