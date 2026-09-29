@@ -196,8 +196,8 @@ async function setOutputs(): Promise<void> {
       const rootPath = "/tmp/supercollider/build/Install/SuperCollider";
       core.addPath(rootPath);
       core.setOutput("sclang_path", `${rootPath}/sclang.exe`);
-      core.setOutput("scsynth_path", `${rootPath}/scsynth`);
-      core.setOutput("supernova_path", `${rootPath}/supernova`);
+      core.setOutput("scsynth_path", `${rootPath}/scsynth.exe`);
+      core.setOutput("supernova_path", `${rootPath}/supernova.exe`);
       break;
     }
   }

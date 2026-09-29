@@ -12,35 +12,56 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
-  integration:
-    name: Integration
+  lint:
+    name: Lint
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
+
+  integration:
+    name: Integration
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version-file: package.json
     - run: npm install
     - run: npm run build
     - run: npm run check
-    - uses: typesafegithub/github-actions-typing@v2
+    - uses: typesafegithub/github-actions-typing@9ddf35b71a482be7d8922b28e8d00df16b77e315 # v2.2.2
 
   end-to-end:
     name: End-to-end
+    permissions:
+      contents: read
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version-file: package.json
     - run: npm install
     - run: npm run build
-    - uses: hendrikmuhs/ccache-action@v1.2
+    - uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
       with:
-        key: ${{ runner.os }}
-        restore-keys: ${{ runner.os }}
-    - uses: ./
+        key: ${{ matrix.os }}-supercollider
+        restore-keys: ${{ matrix.os }}-supercollider
+    - uses: $/
       id: action
     - name: Validate PATH updates
       run: |
@@ -48,7 +69,7 @@ jobs:
         scsynth -v
         supernova -v
     - name: Validate action outputs
-      run: |
+      run: | # zizmor: ignore[template-injection]
         ${{ steps.action.outputs.sclang_path }} -v
         ${{ steps.action.outputs.scsynth_path }} -v
         ${{ steps.action.outputs.supernova_path }} -v
