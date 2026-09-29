@@ -2,7 +2,7 @@
   "author": "@josephine-wolf-oberholtzer",
   "dependencies": {
     "@actions/cache": "^6.0.0",
-    "@actions/core": "^3.0.0",
+    "@actions/core": "^3.0.1",
     "@actions/exec": "^3.0.0",
     "@actions/io": "^3.0.2"
   },
