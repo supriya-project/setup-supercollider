@@ -29962,7 +29962,7 @@ var RestError = class _RestError extends Error {
     } : void 0;
     Object.defineProperty(this, custom, {
       value: () => {
-        return `RestError: ${this.message} 
+        return `RestError: ${this.message}
  ${errorSanitizer.sanitize({
           ...this,
           request: { ...this.request, agent },
@@ -36075,9 +36075,9 @@ var XMLParser = class {
     this.options = buildOptions(options);
   }
   /**
-   * Parse XML dats to JS object 
-   * @param {string|Uint8Array} xmlData 
-   * @param {boolean|Object} validationOption 
+   * Parse XML dats to JS object
+   * @param {string|Uint8Array} xmlData
+   * @param {boolean|Object} validationOption
    */
   parse(xmlData, validationOption) {
     if (typeof xmlData !== "string" && xmlData.toString) {
@@ -36100,8 +36100,8 @@ var XMLParser = class {
   }
   /**
    * Add Entity which is not by default supported by this library
-   * @param {string} key 
-   * @param {string} value 
+   * @param {string} key
+   * @param {string} value
    */
   addEntity(key, value) {
     if (value.indexOf("&") !== -1) {
@@ -36117,10 +36117,10 @@ var XMLParser = class {
   /**
    * Returns a Symbol that can be used to access the metadata
    * property on a node.
-   * 
+   *
    * If Symbol is not available in the environment, an ordinary property is used
    * and the name of the property is here returned.
-   * 
+   *
    * The XMLMetaData property is only present when `captureMetaData`
    * is true in the options.
    */
@@ -59762,7 +59762,7 @@ function printCachesListForDiagnostics(key, httpClient, version3) {
       const cacheListResult = response.result;
       const totalCount = cacheListResult === null || cacheListResult === void 0 ? void 0 : cacheListResult.totalCount;
       if (totalCount && totalCount > 0) {
-        debug(`No matching cache found for cache key '${key}', version '${version3} and scope ${process.env["GITHUB_REF"]}. There exist one or more cache(s) with similar key but they have different version or scope. See more info on cache matching here: https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key 
+        debug(`No matching cache found for cache key '${key}', version '${version3} and scope ${process.env["GITHUB_REF"]}. There exist one or more cache(s) with similar key but they have different version or scope. See more info on cache matching here: https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
 Other caches with similar key:`);
         for (const cacheEntry of (cacheListResult === null || cacheListResult === void 0 ? void 0 : cacheListResult.artifactCaches) || []) {
           debug(`Cache Key: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.cacheKey}, Cache Version: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.cacheVersion}, Cache Scope: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.scope}, Cache Created: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.creationTime}`);
@@ -61211,8 +61211,8 @@ async function setOutputs() {
       const rootPath = "/tmp/supercollider/build/Install/SuperCollider";
       addPath(rootPath);
       setOutput("sclang_path", `${rootPath}/sclang.exe`);
-      setOutput("scsynth_path", `${rootPath}/scsynth`);
-      setOutput("supernova_path", `${rootPath}/supernova`);
+      setOutput("scsynth_path", `${rootPath}/scsynth.exe`);
+      setOutput("supernova_path", `${rootPath}/supernova.exe`);
       break;
     }
   }
