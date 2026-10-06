@@ -11,6 +11,6 @@ repos:
   - id: zizmor
     args: [--no-progress, --fix]
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.14 # Biome version.
+  rev: v2.5.15 # Biome version.
   hooks:
   - id: biome-check
