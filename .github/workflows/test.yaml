@@ -3,10 +3,10 @@ name: Test
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
   schedule:
-  - cron: "0 0 * * 0"
+    - cron: "0 0 * * 0"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,10 +21,10 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: false
-    - uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
 
   integration:
     name: Integration
@@ -32,16 +32,16 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: false
-    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-      with:
-        node-version-file: package.json
-    - run: npm install
-    - run: npm run build
-    - run: npm run check
-    - uses: typesafegithub/github-actions-typing@9ddf35b71a482be7d8922b28e8d00df16b77e315 # v2.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: package.json
+      - run: npm install
+      - run: npm run build
+      - run: npm run check
+      - uses: typesafegithub/github-actions-typing@9ddf35b71a482be7d8922b28e8d00df16b77e315 # v2.2.2
 
   end-to-end:
     name: End-to-end
@@ -49,30 +49,30 @@ jobs:
       contents: read
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: false
-    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-      with:
-        node-version-file: package.json
-    - run: npm install
-    - run: npm run build
-    - uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
-      with:
-        key: ${{ matrix.os }}-supercollider
-        restore-keys: ${{ matrix.os }}-supercollider
-    - uses: $/
-      id: action
-    - name: Validate PATH updates
-      run: |
-        sclang -v
-        scsynth -v
-        supernova -v
-    - name: Validate action outputs
-      run: | # zizmor: ignore[template-injection]
-        ${{ steps.action.outputs.sclang_path }} -v
-        ${{ steps.action.outputs.scsynth_path }} -v
-        ${{ steps.action.outputs.supernova_path }} -v
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: package.json
+      - run: npm install
+      - run: npm run build
+      - uses: hendrikmuhs/ccache-action@f09c25b45002a07be2955cbe52e8cee55643f89d # v1.2.24
+        with:
+          key: ${{ matrix.os }}-supercollider
+          restore-keys: ${{ matrix.os }}-supercollider
+      - uses: $/
+        id: action
+      - name: Validate PATH updates
+        run: |
+          sclang -v
+          scsynth -v
+          supernova -v
+      - name: Validate action outputs
+        run: | # zizmor: ignore[template-injection]
+          ${{ steps.action.outputs.sclang_path }} -v
+          ${{ steps.action.outputs.scsynth_path }} -v
+          ${{ steps.action.outputs.supernova_path }} -v
     strategy:
       fail-fast: false
       matrix:
